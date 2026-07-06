@@ -1,0 +1,404 @@
+/* ── Google Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* ── Couleurs nationales du Burkina Faso ── */
+:root {
+    --bf-red: #EF2B2D;
+    --bf-red-dark: #C41E20;
+    --bf-green: #009E49;
+    --bf-green-dark: #007A38;
+    --bf-gold: #FCD116;
+    --bf-gold-dark: #D4AD00;
+
+    --bg-primary: #0B1120;
+    --bg-secondary: #0F1729;
+    --bg-tertiary: #141E33;
+    --text-primary: #F0F4F8;
+    --text-secondary: #8B9DC3;
+    --text-muted: #5A6F94;
+
+    --accent-gradient: linear-gradient(135deg, var(--bf-red), var(--bf-gold), var(--bf-green));
+    --flag-top: var(--bf-red);
+    --flag-bottom: var(--bf-green);
+    --star: var(--bf-gold);
+
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.07);
+    --glass-hover: rgba(255, 255, 255, 0.06);
+}
+
+/* ── Global ── */
+.stApp {
+    background: var(--bg-primary) !important;
+    background-image:
+        radial-gradient(ellipse at 15% 10%, rgba(239,43,45,0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 90%, rgba(0,158,73,0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(252,209,22,0.03) 0%, transparent 60%) !important;
+    font-family: 'Inter', -apple-system, sans-serif !important;
+}
+.stApp > header {
+    background: transparent !important;
+}
+
+/* ── Sidebar ── */
+section[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%) !important;
+    border-right: 1px solid var(--glass-border) !important;
+}
+section[data-testid="stSidebar"] * {
+    color: var(--text-primary) !important;
+}
+section[data-testid="stSidebar"] .stMarkdown p {
+    color: var(--text-secondary) !important;
+    font-size: 0.88rem;
+}
+section[data-testid="stSidebar"] h3 {
+    font-size: 1rem !important;
+    letter-spacing: 0.5px;
+}
+
+/* ── All text white ── */
+.stMarkdown, .stMarkdown p, .stMarkdown li, .stMarkdown span,
+.stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6,
+.stChatMessage h1, .stChatMessage h2, .stChatMessage h3, .stChatMessage h4, .stChatMessage h5, .stChatMessage h6 {
+    color: var(--text-primary) !important;
+}
+
+/* ── Buttons ── */
+.stButton button {
+    background-color: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease;
+}
+.stButton button:hover {
+    border-color: var(--bf-gold) !important;
+    color: var(--bf-gold) !important;
+    background-color: rgba(252, 209, 22, 0.05) !important;
+    box-shadow: 0 4px 12px rgba(252, 209, 22, 0.1) !important;
+}
+
+/* ── Sidebar coat of arms ── */
+.sidebar-coa {
+    text-align: center;
+    padding: 1.2rem 0 0.5rem;
+}
+.sidebar-coa img {
+    width: 90px;
+    filter: drop-shadow(0 4px 20px rgba(252, 209, 22, 0.25));
+    transition: transform 0.3s ease;
+}
+.sidebar-coa img:hover {
+    transform: scale(1.08);
+}
+.sidebar-motto {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--bf-gold) !important;
+    margin-top: 0.6rem;
+}
+
+/* ── Flag stripe decoration ── */
+.flag-stripe {
+    height: 4px;
+    background: var(--accent-gradient);
+    border-radius: 2px;
+    margin: 0.8rem 0;
+}
+
+/* ── Hero ── */
+.hero-container {
+    text-align: center;
+    padding: 1.5rem 1rem 1rem;
+    position: relative;
+}
+.hero-coa {
+    margin-bottom: 1rem;
+}
+.hero-coa img {
+    width: 120px;
+    filter: drop-shadow(0 6px 30px rgba(252, 209, 22, 0.3));
+    animation: float-coa 4s ease-in-out infinite;
+}
+@keyframes float-coa {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+}
+.hero-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 2.1rem;
+    font-weight: 800;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.3rem;
+    letter-spacing: -0.5px;
+}
+.hero-country {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--bf-gold) !important;
+    margin-bottom: 0.6rem;
+}
+.hero-subtitle {
+    color: var(--text-secondary) !important;
+    font-size: 0.92rem;
+    font-weight: 400;
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+.hero-motto {
+    margin-top: 1rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--text-muted) !important;
+}
+.hero-motto span {
+    color: var(--bf-gold) !important;
+}
+
+/* ── Stat cards ── */
+.stat-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    padding: 1rem 0.8rem;
+    text-align: center;
+    backdrop-filter: blur(12px);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+}
+.stat-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(252, 209, 22, 0.25);
+    box-shadow: 0 8px 30px rgba(252, 209, 22, 0.08);
+}
+.stat-card.red::before { background: var(--bf-red); }
+.stat-card.gold::before { background: var(--bf-gold); }
+.stat-card.green::before { background: var(--bf-green); }
+.stat-number {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+.stat-card.red .stat-number { color: var(--bf-red); }
+.stat-card.gold .stat-number { color: var(--bf-gold); }
+.stat-card.green .stat-number { color: var(--bf-green); }
+.stat-label {
+    font-size: 0.7rem;
+    color: var(--text-muted) !important;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-top: 0.25rem;
+}
+
+/* ── Chat messages ── */
+.stChatMessage {
+    background: var(--glass-bg) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 16px !important;
+    padding: 1rem 1.2rem !important;
+    margin-bottom: 0.75rem !important;
+    backdrop-filter: blur(12px) !important;
+    animation: fadeSlideIn 0.4s ease-out;
+}
+@keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.stChatMessage [data-testid="chatAvatarIcon-user"] {
+    background: linear-gradient(135deg, var(--bf-red), var(--bf-gold)) !important;
+}
+.stChatMessage [data-testid="chatAvatarIcon-assistant"] {
+    background: linear-gradient(135deg, var(--bf-green), var(--bf-gold)) !important;
+}
+.stChatMessage p {
+    color: var(--text-primary) !important;
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* ── Chat input ── */
+.stChatInput {
+    border-top: none !important;
+}
+.stChatInput > div {
+    background: var(--bg-tertiary) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.2) !important;
+}
+.stChatInput > div:focus-within {
+    border-color: rgba(252, 209, 22, 0.35) !important;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.2), 0 0 0 1px rgba(252, 209, 22, 0.15) !important;
+}
+.stChatInput textarea {
+    color: var(--text-primary) !important;
+    font-family: 'Inter', sans-serif !important;
+    caret-color: var(--bf-gold) !important;
+}
+.stChatInput button {
+    color: var(--bf-gold) !important;
+}
+
+/* ── Spinner ── */
+.stSpinner > div > div {
+    border-top-color: var(--bf-gold) !important;
+}
+
+/* ── Error / Info alerts ── */
+.stAlert {
+    background: var(--glass-bg) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 12px !important;
+    color: var(--text-primary) !important;
+}
+
+/* ── Feature items (sidebar) ── */
+.feature-item {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 0.7rem 0.9rem;
+    margin-bottom: 0.45rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: all 0.2s ease;
+}
+.feature-item:hover {
+    border-color: rgba(252, 209, 22, 0.2);
+    background: var(--glass-hover);
+}
+.feature-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+.feature-text {
+    font-size: 0.8rem;
+    color: var(--text-secondary) !important;
+    line-height: 1.4;
+}
+
+/* ── Welcome card ── */
+.welcome-card {
+    background:
+        linear-gradient(135deg,
+            rgba(239,43,45,0.07) 0%,
+            rgba(252,209,22,0.05) 50%,
+            rgba(0,158,73,0.07) 100%);
+    border: 1px solid rgba(252, 209, 22, 0.12);
+    border-radius: 18px;
+    padding: 2rem 1.5rem;
+    margin: 0.5rem 0 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.welcome-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent-gradient);
+}
+.welcome-coa img {
+    width: 70px;
+    margin-bottom: 0.8rem;
+    filter: drop-shadow(0 4px 15px rgba(252, 209, 22, 0.2));
+}
+.welcome-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary) !important;
+    margin-bottom: 0.4rem;
+}
+.welcome-text {
+    font-size: 0.88rem;
+    color: var(--text-secondary) !important;
+    line-height: 1.6;
+    max-width: 440px;
+    margin: 0 auto;
+}
+
+/* ── Suggestion chips ── */
+.suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 1.2rem;
+}
+.chip {
+    background: rgba(252, 209, 22, 0.06);
+    border: 1px solid rgba(252, 209, 22, 0.15);
+    border-radius: 22px;
+    padding: 0.45rem 1rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary) !important;
+    cursor: default;
+    transition: all 0.25s ease;
+}
+.chip:hover {
+    border-color: var(--bf-gold);
+    color: var(--bf-gold) !important;
+    background: rgba(252, 209, 22, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(252, 209, 22, 0.1);
+}
+
+/* ── Footer ── */
+.footer {
+    text-align: center;
+    padding: 1.5rem 0 0.5rem;
+    margin-top: 2rem;
+}
+.footer-flag {
+    height: 3px;
+    background: var(--accent-gradient);
+    border-radius: 2px;
+    margin-bottom: 1rem;
+}
+.footer-motto {
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--bf-gold) !important;
+    margin-bottom: 0.4rem;
+}
+.footer-text {
+    font-size: 0.72rem;
+    color: var(--text-muted) !important;
+    letter-spacing: 0.3px;
+}
+.footer-badge {
+    display: inline-block;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 22px;
+    padding: 0.35rem 1rem;
+    font-size: 0.7rem;
+    color: var(--text-secondary) !important;
+    margin-top: 0.6rem;
+}
+
+/* ── Hide Streamlit defaults ── */
+#MainMenu, footer, .stDeployButton { display: none !important; }

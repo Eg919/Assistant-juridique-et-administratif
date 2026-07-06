@@ -1,0 +1,28 @@
+# Environnement virtuel Python
+venv/
+env/
+.env
+
+# Données générées et bases de données
+chromadb_storage/
+chat_history/
+data/
+data_scraped_pdf/
+
+# Note: On conserve le dossier "data" dans Git si on veut partager la base de données brute,
+# mais si les fichiers "site_*.txt" sont trop lourds, on peut les ignorer et forcer le scraping.
+# data/site_*.txt
+# data/page_*.txt
+
+# Caches Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Fichiers de configuration IDE
+.vscode/
+.idea/
+
+# Fichiers système
+.DS_Store
+Thumbs.db
