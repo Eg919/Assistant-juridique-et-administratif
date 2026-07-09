@@ -4,7 +4,6 @@ env/
 .env
 
 # Données générées et bases de données
-chromadb_storage/
 chat_history/
 data/
 data_scraped_pdf/
@@ -26,3 +25,4 @@ __pycache__/
 # Fichiers système
 .DS_Store
 Thumbs.db
+chromadb_storage/
