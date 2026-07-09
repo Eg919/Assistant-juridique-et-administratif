@@ -1,0 +1,445 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+\geometry{a4paper, margin=2.5cm, headheight=15pt}
+\usepackage{graphicx}
+\usepackage{hyperref}
+% Les liens sont actifs mais en noir pour l'impression ou un rendu sobre
+\hypersetup{colorlinks=true, allcolors=black} 
+\usepackage{titlesec}
+\usepackage{xcolor} % Conservé uniquement pour les nuances de gris (gray!10, etc.)
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{float}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, shadows, backgrounds, fit}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, breakable}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{mdframed}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{setspace}
+
+%% ─── Titres (Noir et blanc) ─────────────────────────────────────────────────
+\titleformat{\section}{\Large\bfseries}{\thesection.}{1em}{}[\titlerule]
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+%% ─── En-tête / pied de page (Noir et blanc) ─────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textbf{Rapport Technique}}
+\fancyhead[R]{\small Master 1 IFOAD – 2026}
+\fancyfoot[C]{\small Page \thepage\ / \pageref{LastPage}}
+\renewcommand{\headrulewidth}{1pt}
+
+%% ─── Boîtes (Nuances de gris) ───────────────────────────────────────────────
+\newtcolorbox{infobox}[1]{
+  colback=gray!5, colframe=black, title=#1,
+  fonttitle=\bfseries, coltitle=black,
+  colbacktitle=gray!15, arc=4pt
+}
+\newtcolorbox{warnbox}[1]{
+  colback=gray!5, colframe=black, title=#1,
+  fonttitle=\bfseries, coltitle=black,
+  colbacktitle=gray!15, arc=4pt
+}
+\newtcolorbox{errorbox}[1]{
+  colback=gray!5, colframe=black, title=#1,
+  fonttitle=\bfseries, coltitle=black,
+  colbacktitle=gray!15, arc=4pt
+}
+
+%% ─── TikZ styles pour le schéma (Noir et blanc/Gris) ────────────────────────
+\tikzset{
+  block/.style={
+    rectangle, rounded corners=6pt, minimum width=6.5cm, minimum height=0.9cm,
+    text centered, draw=black, fill=gray!10, line width=1pt,
+    font=\small\bfseries, drop shadow
+  },
+  arrow/.style={-{Stealth[length=6pt]}, line width=1pt, draw=black},
+  label_side/.style={font=\scriptsize\itshape, text width=3.5cm}
+}
+
+\begin{document}
+
+%% ─── Page de titre ──────────────────────────────────────────────────────────
+
+\begin{titlepage}
+    \begin{center}
+        
+        % LOGO
+         \includegraphics[width=0.5\textwidth]{logo.jpg} \\[1cm]
+        
+        % EN-TÊTE / INSTITUTION
+        {\Large \textbf{UNIVERSITÉ JOSEPH KI-ZERBO}} \\[0.3cm]
+        {\Large \textbf{INSTITUT DE FORMATION OUVERTE ET À DISTANCE (IFOAD)}} \\[1.5cm]
+        
+        {\large \textbf{Master 1 Data Science}} \hfill {\large \textbf{Année académique 2025-2026}} \\[2cm]
+        
+        % TITRE DU PROJET
+        \rule{\linewidth}{0.5mm} \\[0.6cm]
+        {\huge \textbf{RAPPORT TECHNIQUE}} \\[0.5cm]
+        {\Large Conception d'un Agent IA Assistant \& Système RAG Juridique et Administratif} \\[0.4cm] 
+        \rule{\linewidth}{0.5mm} \\[1.5cm]
+        
+        % LIENS (Placés sur deux lignes distinctes pour éviter le chevauchement)
+        \textit{Lien Git :}\\
+        \texttt{\small github.com/Eg919/Assistant-juridique-et-administra}\\[0.4cm]
+        \textit{Lien de l'application :}\\
+        \texttt{\small https://agent-appifoad.streamlit.app/}\\[1.5cm]
+        
+        % MEMBRES DU GROUPE ET ENSEIGNANT
+        \begin{minipage}[t]{0.55\textwidth}
+            \begin{flushleft}
+                \large \textbf{Membres du Groupe 6 :} \\[0.2cm]
+                SAWADOGO P. Roméo \\
+                DA S. Egis \\
+                SOMÉ T. Félix 
+            \end{flushleft}
+        \end{minipage}
+        \hfill
+        \begin{minipage}[t]{0.4\textwidth}
+            \begin{flushleft} 
+                \large \textbf{Enseignant :} \\[0.2cm]
+                Dr Arthur SAWADOGO 
+            \end{flushleft}
+        \end{minipage}
+
+        \vfill
+        
+        % DATE
+        {\large \textbf{Juin 2026}}
+        
+    \end{center}
+\end{titlepage}
+
+%% ─── Table des matières ─────────────────────────────────────────────────────
+\renewcommand{\contentsname}{Table des matières}
+\tableofcontents
+\newpage
+
+%% ════════════════════════════════════════════════════════════════════════════
+\section{Introduction et Objectifs du Projet}
+
+L'accès à l'information administrative et juridique constitue un défi majeur pour le citoyen burkinabè : multiplicité des guichets, manque de lisibilité des textes officiels, et difficultés de mise à jour des procédures. Ce projet répond à cette problématique en concevant un \textbf{Agent IA intelligent} ancré sur le paradigme \textbf{RAG (Retrieval-Augmented Generation)} : l'agent ne « mémorise » pas l'information dans ses poids, il la \emph{récupère en temps réel} depuis une base de connaissances locale construite à partir de textes officiels burkinabè.
+
+\begin{infobox}{Périmètre fonctionnel de l'agent}
+L'agent couvre quelques démarches citoyennes prioritaires tels que :
+\begin{itemize}[noitemsep]
+  \item \textbf{CNIB} (Carte Nationale d'Identité Burkinabè) – coût, pièces, délais, loi n°005-2001/AN
+  \item \textbf{Passeport ordinaire} – procédure Division de la Migration (Gounghin)
+  \item \textbf{Création d'entreprise} – parcours CEFORE / Maison de l'Entreprise du BF (MEBF)
+\end{itemize}
+\end{infobox}
+
+L'ambition est triple : (1) fournir des réponses \textbf{sourcées et vérifiables}, (2) \textbf{bloquer toute hallucination} en refusant de répondre hors périmètre documentaire, et (3) offrir une expérience conversationnelle fluide comparable aux assistants de production.
+
+%% ════════════════════════════════════════════════════════════════════════════
+\section{Architecture du Système et Flux de Données}
+
+\subsection{Vue d'ensemble de l'architecture RAG}
+
+Le système repose sur une architecture RAG bidimensionnelle : un \textbf{pipeline d'ingestion hors-ligne} (exécuté une seule fois pour construire la base vectorielle) et une \textbf{boucle de requêtage en ligne} (exécutée à chaque question de l'utilisateur).
+
+\subsubsection{Schéma détaillé du flux de données}
+
+\begin{figure}[H]
+\centering
+% Utilisation de resizebox pour forcer le schéma à tenir dans la largeur de la page
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[node distance=0.8cm and 2.0cm]
+
+  %% ── Pipeline d'ingestion (côté gauche) ──────────────────────────────────
+  \node[block=bfgreen, text width=6cm] (src)
+        {\small Sources Officielles (ONI, Police, ServicePublic, MEBF, JOBF, AN)};
+
+  \node[block=bfgreen, below=of src] (crawl)
+        {Web Crawler BFS};
+
+  \node[block=bfgreen, below=of crawl] (chunk)
+        {Chunking récursif};
+
+  \node[block=bfgreen, below=of chunk] (embed_idx)
+        {Embeddings Locaux};
+
+  \node[block=bfgreen, below=of embed_idx] (chroma)
+        {Index Vectoriel (ChromaDB)};
+
+  %% ── Pipeline de requêtage (côté droit) ──────────────────────────────────
+  \node[block=bfred, right=2cm of src, text width=6cm] (user)
+        {Utilisateur : Question (Streamlit)};
+
+  \node[block=bfred, below=of user] (embed_q)
+        {Embedding de la Requête};
+
+  \node[block=bfred, below=of embed_q] (search)
+        {Recherche Vectorielle};
+
+  \node[block=bfred, below=of search] (prompt)
+        {Construction du Prompt Strict};
+
+  \node[block=bfred, below=of prompt] (llm)
+        {\textbf{LLM Groq API}};
+
+  \node[block=bfred, below=of llm] (resp)
+        {Réponse affichée + Historique};
+
+  %% ── Connexions ──────────────────────────────────────────────────────────
+  \draw[arrow, bfgreen] (src) -- (crawl);
+  \draw[arrow, bfgreen] (crawl) -- (chunk);
+  \draw[arrow, bfgreen] (chunk) -- (embed_idx);
+  \draw[arrow, bfgreen] (embed_idx) -- (chroma);
+
+  \draw[arrow, bfred] (user) -- (embed_q);
+  \draw[arrow, bfred] (embed_q) -- (search);
+  \draw[arrow, bfred] (search) -- (prompt);
+  \draw[arrow, bfred] (prompt) -- (llm);
+  \draw[arrow, bfred] (llm) -- (resp);
+
+  \draw[arrow, bfgold!80!orange, line width=2pt] (chroma.east) --
+        node[above, sloped, font=\scriptsize\bfseries] {Contexte} (search.west);
+
+  %% ── Arrière-plans ───────────────────────────────────────────────────────
+  \begin{scope}[on background layer]
+    \node[draw=bfgreen, dashed, rounded corners, inner sep=10pt,
+          fill=bfgreen!5, fit=(src)(crawl)(chunk)(embed_idx)(chroma)] {};
+    \node[draw=bfred, dashed, rounded corners, inner sep=10pt,
+          fill=bfred!5, fit=(user)(embed_q)(search)(prompt)(llm)(resp)] {};
+  \end{scope}
+
+\end{tikzpicture}
+} % Fin de resizebox
+\caption{Flux de données complet du Système RAG Juridique Burkinabè}
+\end{figure}
+
+
+
+\subsection{Description détaillée de chaque étape}
+
+\paragraph{Requête \& Interface Streamlit.}
+L'utilisateur saisit une question en langage naturel sur l'interface web Streamlit (ex : \emph{« Quelles pièces faut-il pour obtenir la CNIB ? »}). L'historique complet de la conversation est maintenu en session et sauvegardé localement au format JSON.
+
+\paragraph{Embedding de la requête.}
+La question est transformée en vecteur numérique de 384 dimensions par le même modèle d'embeddings utilisé à l'ingestion (\texttt{all-MiniLM-L6-v2}), garantissant la cohérence de l'espace vectoriel.
+
+\paragraph{Recherche vectorielle (ChromaDB).}
+ChromaDB calcule la similarité cosinus entre le vecteur-requête et les 1\,600+ vecteurs-chunks stockés, puis retourne les $k$ fragments textuels les plus proches sémantiquement (avec leurs métadonnées de source).
+
+\paragraph{Construction du Prompt Strict.}
+Les chunks récupérés sont injectés dans un \emph{System Prompt} à règles strictes, qui : (a) oblige le modèle à ne répondre qu'à partir du contexte fourni, (b) gère les interactions sociales courantes (salutations, remerciements) sans invoquer la base RAG, (c) force la phrase de refus calibrée sur toute question hors périmètre.
+
+\paragraph{LLM Groq (Llama 3.1 – 8B).}
+Le prompt enrichi est envoyé à l'API Groq, qui retourne la réponse finale en moins d'une seconde grâce à l'infrastructure LPU (Language Processing Unit) de Groq.
+
+\paragraph{Réponse et persistance.}
+La réponse s'affiche avec auto-scrolling JavaScript. Chaque échange est sauvegardé dans un fichier JSON horodaté, accessible depuis la barre latérale de l'interface.
+
+%% ════════════════════════════════════════════════════════════════════════════
+\section{Méthodologie et Choix Techniques}
+
+\subsection{Collecte automatisée des données (Web Crawling)}
+
+Un script personnalisé \texttt{super\_scraper\_rag.py} a été développé, implémentant un crawl en largeur (BFS — \emph{Breadth-First Search}) jusqu'à une profondeur de \textbf{15 pages par domaine}.
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Source} & \textbf{Domaine ciblé} & \textbf{Données extraites} \\
+\midrule
+ONI & \texttt{oni.bf} & Procédures CNIB, lois, formulaires \\
+Police Nationale & \texttt{police.gov.bf} & Passeport, migration, FAQs \\
+Service Public BF & \texttt{service-public.gov.bf} & Fiches structurées (coût, délai, pièces) \\
+Journal Officiel BF & \texttt{jobf.gov.bf} & Décrets et textes réglementaires \\
+Assemblée Nationale & \texttt{assembleenationale.bf} & Corpus législatif de référence \\
+Maison de l'Entreprise & \texttt{me.bf} & Procédures CEFORE, formulaires M0 \\
+\bottomrule
+\end{tabular}
+\caption{Plateformes ciblées par le crawler et nature des données collectées}
+\end{table}
+
+Le script agrège le texte extrait de chaque domaine dans un fichier dédié (ex : \texttt{site\_oni.bf.txt}) et télécharge les PDF officiels (formulaires, décrets) pour les ingérer séparément.
+
+
+\subsection{Stratégie de Chunking}
+
+\begin{infobox}{Paramètres de segmentation retenus}
+\begin{itemize}[noitemsep]
+  \item \textbf{Splitter :} \texttt{RecursiveCharacterTextSplitter} (LangChain) — découpage hiérarchique sur \verb|\n\n|, \verb|\n|, puis espace.
+  \item \textbf{Taille de bloc :} \texttt{chunk\_size = 500 caractères}
+  \item \textbf{Chevauchement :} \texttt{chunk\_overlap = 50 caractères}
+  \item \textbf{Volume final :} \textbf{1\,600+ chunks} indexés dans ChromaDB
+\end{itemize}
+\end{infobox}
+
+\paragraph{Justification du chunk\_size = 500.}
+Les fiches de \texttt{service-public.gov.bf} présentent une structure homogène : une section « pièces requises » contient typiquement 3 à 6 items de 40 à 80 caractères chacun, soit 200 à 500 caractères au total. Un bloc de 500 caractères capture une liste complète de pièces sans la tronquer, maximisant la cohérence sémantique du chunk retourné.
+
+\paragraph{Justification du chunk\_overlap = 50.}
+Le chevauchement de 50 caractères évite qu'une phrase à cheval sur deux blocs soit perdue pour la recherche vectorielle (ex : une condition d'éligibilité comme \emph{« Être âgé de 15 ans révolus et de nationalité burkinabè »} doit apparaître intacte dans au moins un chunk).
+
+\subsection{Modèle d'Embeddings}
+
+\begin{infobox}{Choix du modèle : \texttt{sentence-transformers/all-MiniLM-L6-v2}}
+\begin{itemize}[noitemsep]
+  \item \textbf{Architecture :} Transformer 6 couches, 22 M de paramètres
+  \item \textbf{Dimension des vecteurs :} 384
+  \item \textbf{Exécution :} Entièrement locale, gratuite, sans appel API
+  \item \textbf{Vitesse :} Encodage de 1\,600 chunks en $<$ 90 secondes sur CPU
+\end{itemize}
+\end{infobox}
+
+\paragraph{Compromis retenu.}
+Un modèle plus grand (\texttt{paraphrase-multilingual-mpnet-base-v2}, 768 dimensions) aurait pu améliorer la précision sur les textes juridiques français, mais au prix d'un temps d'ingestion 3× plus long sur machine locale. \texttt{all-MiniLM-L6-v2} offre un excellent rapport qualité/vitesse pour un prototype académique sous contrainte de ressources.
+
+
+\subsection{Base Vectorielle : ChromaDB}
+
+ChromaDB a été retenu pour sa configuration zéro-serveur (stockage local persistant dans un répertoire), son intégration native avec LangChain, et la possibilité d'associer des \textbf{métadonnées} à chaque chunk (source URL, type de démarche, date de scraping) pour afficher la provenance dans l'interface.
+
+%% ════════════════════════════════════════════════════════════════════════════
+\subsection{Modèle de Langage (LLM) : Groq + Llama 3.1}
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Critère} & \textbf{Valeur} & \textbf{Justification} \\
+\midrule
+Modèle & Llama 3.1 – 8B (Groq) & Gratuit, rapide, instruct-tuned \\
+Latence & $< 1$ seconde & Infrastructure LPU de Groq \\
+Coût & Gratuit (tier Groq) & Compatible budget projet académique \\
+Langue & Multilingue (FR/EN) & Textes en français, requêtes en français \\
+Contexte & 8\,192 tokens & Suffit pour 3–5 chunks + historique \\
+\bottomrule
+\end{tabular}
+\caption{Justification du choix LLM}
+\end{table}
+
+
+\subsection{Interface Utilisateur : Streamlit Avancé}
+
+L'interface dépasse le composant standard \texttt{st.chat\_message} avec les améliorations suivantes :
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Armoiries BF encodées en Base64} — affichage garanti hors-ligne, sans dépendance réseau à une URL d'image.
+  \item \textbf{Historique de sessions persistant (JSON)} — barre latérale permettant de retrouver et relire des échanges antérieurs.
+  \item \textbf{Auto-scrolling JavaScript} — script injecté via \texttt{st.components.v1.html()} pour un défilement automatique vers le dernier message, reproduisant l'UX des messageries modernes.
+  \item \textbf{Charte graphique CSS personnalisée} — couleurs rouge/vert/or du Burkina Faso appliquées aux bulles de chat, aux en-têtes et à la barre latérale.
+\end{itemize}
+
+\subsection{System Prompt et Contrôle Comportemental}
+
+Le System Prompt est le mécanisme central de fiabilité de l'agent. Il encode trois règles comportementales distinctes :
+
+\begin{enumerate}
+  \item \textbf{Règle de grounding :} « Tu dois uniquement répondre à partir des documents fournis en contexte. N'invente aucune procédure, aucun coût, aucun délai. »
+  \item \textbf{Règle sociale :} « Si l'utilisateur te salue ou te remercie, réponds courtoisement sans interroger la base documentaire. »
+  \item \textbf{Règle de refus calibré :} « Si la question ne concerne pas les procédures CNIB, passeport ou création d'entreprise au Burkina Faso, réponds exactement : \emph{Je ne dispose pas de cette information officielle dans ma base de connaissances actuelle.} »
+\end{enumerate}
+
+
+%% ════════════════════════════════════════════════════════════════════════════
+\section{Évaluation du Système et Robustesse}
+
+\subsection{Tests de pertinence de la récupération}
+
+Vingt questions-tests représentatives ont été formulées (7 sur la CNIB, 7 sur le passeport, 6 sur le CEFORE). Pour chaque question, le chunk retourné en première position a été inspecté manuellement.
+
+\begin{infobox}{Exemples de résultats positifs}
+\begin{itemize}[noitemsep]
+  \item \emph{« Quel est le coût de la CNIB ? »} → chunk exact contenant \textbf{« 2\,500 F CFA »}, issu de \texttt{service-public.gov.bf}.
+  \item \emph{« Quels documents pour créer une SARL ? »} → chunk contenant la liste complète (statuts, DSV, casier judiciaire), issu de \texttt{servicepublic.gov.bf/cefore}.
+  \item \emph{« Où déposer sa demande de passeport ? »} → chunk mentionnant \textbf{Division de la Migration, Gounghin}, issu de \texttt{police.gov.bf}.
+\end{itemize}
+\end{infobox}
+
+
+\subsection{Tests anti-hallucination}
+
+Des questions volontairement hors-périmètre ont été soumises pour valider la robustesse du refus :
+
+\begin{itemize}[leftmargin=*]
+  \item \emph{« Comment obtenir un visa pour la Chine ? »} → réponse de refus calibrée déclenchée \textbf{[OK]}
+  \item \emph{« Qui est le Président du Faso ? »} → réponse de refus calibrée déclenchée \textbf{[OK]}
+  \item \emph{« Bonjour, comment vas-tu ? »} → réponse sociale sans appel RAG \textbf{[OK]}
+\end{itemize}
+
+%% ════════════════════════════════════════════════════════════════════════════
+\section{Limites Identifiées et Perspectives d'Amélioration}
+
+\subsection{Limites Techniques}
+
+\begin{errorbox}{Limite 1 – PDFs scannés du Journal Officiel (1960–1995)}
+Les archives historiques du JOBF sont des \textbf{images de documents numérisés}, non du texte sélectionnable. Le parseur actuel (extraction texte brut) retourne un contenu vide sur ces fichiers. Le corpus juridique de référence est donc lacunaire pour les décrets antérieurs à 1996, ce qui peut induire l'agent en erreur sur des bases légales historiques.
+\end{errorbox}
+
+\begin{errorbox}{Limite 2 – Fragilité du scraping face aux mises à jour du site}
+Les sites gouvernementaux burkinabè modifient périodiquement leur structure HTML. Un changement de balise ou de classe CSS peut casser le scraper sans alerte, conduisant à un corpus silencieusement incomplet à la prochaine ingestion.
+\end{errorbox}
+
+\begin{warnbox}{Limite 3 – Modèle d'embeddings non optimisé pour le juridique français}
+\texttt{all-MiniLM-L6-v2} est un modèle généraliste. Il peut créer des confusions sémantiques entre des termes juridiques proches (ex : \emph{« extrait de casier »} vs \emph{« bulletin n°3 »}) qui réfèrent au même document mais avec une terminologie variable selon les sources.
+\end{warnbox}
+
+\begin{warnbox}{Limite 4 – Gestion des mises à jour réglementaires}
+Si le gouvernement modifie les frais de la CNIB (passés de 2\,500 à 3\,500 F CFA pour la CIB-AES selon certaines sources 2026), la base vectorielle n'est pas mise à jour automatiquement. L'agent peut fournir une information périmée sans l'indiquer.
+\end{warnbox}
+
+\subsection{Perspectives d'Amélioration}
+
+\begin{infobox}{Amélioration 1 – Module OCR pour les archives scannées}
+Coupler le pipeline d'ingestion à \textbf{Tesseract OCR} (open source, supporte le français) ou à un modèle de vision multimodal (\texttt{Qwen2-VL}, \texttt{LLaVA}) pour transcrire automatiquement les décrets historiques numérisés. Cela permettrait d'étendre la couverture du corpus à l'intégralité des textes fondateurs de l'administration burkinabè depuis l'indépendance.
+\end{infobox}
+
+\begin{infobox}{Amélioration 2 – Gestion des versions juridiques avec métadonnées temporelles}
+Attacher à chaque chunk une \textbf{date de validité} (date du décret ou de la dernière mise à jour de la page source). Le System Prompt indiquerait au modèle de signaler à l'utilisateur si une information date de plus de 12 mois, et de recommander une vérification sur le portail officiel.
+\end{infobox}
+
+\begin{infobox}{Amélioration 3 – Passage à un modèle d'embeddings juridique}
+Remplacer \texttt{all-MiniLM-L6-v2} par \texttt{paraphrase-multilingual-mpnet-base-v2} (768 dims) ou, idéalement, un modèle \textbf{fine-tuné sur des textes juridiques francophones} (ex : modèle entraîné sur DILA/Légifrance) pour améliorer la précision de la recherche vectorielle sur la terminologie administrative.
+\end{infobox}
+
+\begin{infobox}{Amélioration 4 – Mise à jour incrémentale automatique du corpus}
+Implémenter un scheduler (ex : \texttt{APScheduler}) lançant le crawler hebdomadairement, détectant les nouvelles pages ou les modifications de contenu (via hachage MD5 des pages), et mettant à jour ChromaDB de façon incrémentale sans ré-ingestion complète.
+\end{infobox}
+
+\begin{infobox}{Amélioration 5 – Couverture des démarches complémentaires}
+Étendre le périmètre à d'autres démarches fréquentes : acte de naissance (Mairie / CNRST), permis de conduire (SOTRACO/ONASER), certificat de résidence (Commissariat), et demande de bourse (MESRI). L'architecture modulaire du système facilite cet ajout par simple ajout de nouvelles sources au crawler.
+\end{infobox}
+
+%% 
+
+\section{Conclusion}
+
+Ce prototype d'Assistant Juridique et Administratif burkinabè démontre l'efficacité des architectures RAG pour démocratiser l'accès à l'information réglementaire dans un contexte de faible numérisation administrative. En combinant un \textbf{Web Crawling structuré} de six plateformes gouvernementales, une \textbf{vectorisation légère mais pertinente}, un \textbf{LLM rapide et gratuit} (Groq/Llama 3.1) et un \textbf{contrôle comportemental strict} anti-hallucination, le système produit des réponses sourcées, vérifiables et reproduisibles sur les démarches CNIB, passeport et création d'entreprise.
+
+Les limites identifiées — notamment la lacune sur les archives scannées et l'absence de mise à jour automatique — constituent des pistes de travail concrètes pour une évolution vers une solution de production viable au service du citoyen burkinabè.
+
+\vspace{0.8cm}
+\begin{center}
+  \begin{tcolorbox}[colback=bfgreen!8, colframe=bfgreen, arc=6pt, width=0.85\textwidth]
+    \centering
+    \textit{Le code source complet (scripts d'ingestion, crawler, application Streamlit) est disponible sur le dépôt GitHub du groupe.}\\[0.3cm]
+    \texttt{\small github.com/Eg919/Assistant-juridique-et-administra}
+  \end{tcolorbox}
+\end{center}
+
+
+\vspace{0.8cm}
+\begin{center}
+  \begin{tcolorbox}[colback=bfgreen!8, colframe=bfgreen, arc=6pt, width=0.85\textwidth]
+    \centering
+    \textit{ L'application est fonctionnelle en ligne via Streamlit Community Cloud.}\\[0.3cm]
+    \texttt{\small https://agent-appifoad.streamlit.app/}
+  \end{tcolorbox}
+\end{center}
+
+\end{document}
